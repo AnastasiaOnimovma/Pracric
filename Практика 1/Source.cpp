@@ -22,26 +22,26 @@ int data(long long int value, int order, int flag)
 }
 int main() {
 	setlocale(0, ""); //для русского языка
-    cout<<"Öåëûå: "<<sizeof(int) << " " << sizeof(short int) << " " << sizeof(long int) << "\n";
-    cout<<"Âåùåñòâåííûå: "<<sizeof(float) << " " << sizeof(double) << " " << sizeof(long double) << "\n";
-    cout<<"Ñèìâîëüíûé: "<<sizeof(char) << "\n";
-    cout<<"Ëîãè÷åñêèé: "<<sizeof(bool) << "\n";
+    cout<<"Целые: "<<sizeof(int) << " " << sizeof(short int) << " " << sizeof(long int) << "\n";
+    cout<<"Вещественные: "<<sizeof(float) << " " << sizeof(double) << " " << sizeof(long double) << "\n";
+    cout<<"Символьный: "<<sizeof(char) << "\n";
+    cout<<"Логический: "<<sizeof(bool) << "\n";
 	int number_1,flag=0; //flag нужен для отделения разрядов у разных типов
-	cout << "Ââåäèòå öåëîå ÷èñëî: ";
+	cout << "Введите целое число: ";
 	cin >> number_1;
 	flag= data(number_1, sizeof(number_1)*8,flag);
 	union {
 		int tool_for_f;
 		float number_2;
 	};
-	cout << "Ââåäèòå âåùåñòâåííîå ÷èñëî (float): ";
+	cout << "Введите вещественное число (float): ";
 	cin >> number_2; 
 	flag= data(tool_for_f, sizeof(number_2) * 8,flag);
 	union {
 		long long int tool_for_d;
 		double number_3;
 	};
-	cout << "Ââåäèòå âåùåñòâåííîå ÷èñëî (double): ";
+	cout << "Введите вещественное число (double): ";
 	cin >> number_3;
 	flag=data(tool_for_d, sizeof(number_3) * 8,flag);
     return 0;
