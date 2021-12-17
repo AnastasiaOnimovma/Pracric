@@ -174,7 +174,7 @@ int main()
     cin >> size;
     int** arr = new int* [size];
     for (int i = 0; i < size; ++i)
-        arr[i] = new int[size];
+        arr[i] = new int[size]{};
     int* ptr = *arr;
     cout << "Task 1. Choose the option of filling the array: a(0), b(1) ";
     cin >> answer;
