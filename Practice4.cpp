@@ -77,7 +77,7 @@ void searchBM(string &text, string &str_part, int &size, int & part_size)
 }
 bool readFile(string &text) {
     ifstream File;
-    File.open("C:\\Users\\Þëÿ\\practice_example.txt", ios::binary);
+    File.open("\\practice_example.txt", ios::binary);  //путь пишите сами
     if (!File.is_open())   
     {
         cout << "Can not open\n";
