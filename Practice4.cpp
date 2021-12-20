@@ -3,18 +3,18 @@
 #include<windows.h>
 #include <fstream>
 using namespace std;
-/*Ðóñêêèé: Win-1251*/
+/*Ð ÑƒÑÐºÐºÐ¸Ð¹: Win-1251*/
 
 /*
- Çàäàíèå 3- 3
- Çàäàíèå 4- 2
+ Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ 3- 3
+ Ð—Ð°Ð´Ð°Ð½Ð¸Ðµ 4- 2
 */
-unsigned char Smaller(unsigned char c)  // Â ìàëåíüêèå áóêâû 
+unsigned char Smaller(unsigned char c)  // Ð’ Ð¼Ð°Ð»ÐµÐ½ÑŒÐºÐ¸Ðµ Ð±ÑƒÐºÐ²Ñ‹ 
 {
     if ((c >= 0x41 && c <= 0x5A) || c >= 0xC0 && c<= 0xDF) c = c + 0x20;
     return c;
 }
-unsigned char Bigger(unsigned char c)  // Â áîëüøèå áóêâû 
+unsigned char Bigger(unsigned char c)  // Ð’ Ð±Ð¾Ð»ÑŒÑˆÐ¸Ðµ Ð±ÑƒÐºÐ²Ñ‹ 
 {
     if ((c >= 0x61 && c <= 0x7A ) || (c>= 0xE0 && c<= 0xFF)) c = c - 0x20;
     return c;
@@ -35,7 +35,7 @@ void directSearch(string &text, string &str_part, int &size, int &part_size) {
     cout << "\n";
     
 }
-void badChar(unsigned char str[], int size,int badchar[]) //øàáëîí- òàáëèöà
+void badChar(unsigned char str[], int size,int badchar[]) //ÑˆÐ°Ð±Ð»Ð¾Ð½- Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ð°
 {
     int i;
     for (i = 0; i < 256; i++)
@@ -77,14 +77,14 @@ void searchBM(string &text, string &str_part, int &size, int & part_size)
 }
 bool readFile(string &text) {
     ifstream File;
-    File.open("C:\\Users\\Þëÿ\\practice_example.txt", ios::binary);
+    File.open("C:\\Users\\ÃžÃ«Ã¿\\practice_example.txt", ios::binary);
     if (!File.is_open())   
     {
         cout << "Can not open\n";
         return 0;   
     }
     char Buf[1024];
-   while ( ! File.eof () ) // ×èòàåì âñå ñòðîêè èç ôàéëà è âûâîäèì èõ íà ýêðàí
+   while ( ! File.eof () )  // Ð§Ð¸Ñ‚Ð°ÐµÐ¼ Ð²ÑÐµ ÑÑ‚Ñ€Ð¾ÐºÐ¸ Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð° Ð¸ Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ð¼ Ð¸Ñ… Ð½Ð° ÑÐºÑ€Ð°Ð½
    {
         File.getline ( Buf, 1024 );
    }
@@ -94,17 +94,12 @@ bool readFile(string &text) {
 
     return 1;
 }
-void outputÌertically(string& text, int& size) {
-    for (int i = 0; i < size; ++i) {
-        cout << text[i] << "\n";
-    }
-}
 
 int main()
 {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    string text, punct=".,-—!?:;'\"()", numbers="0123456789", end_sent=".!?";
+    string text, punct=".,-â€”!?:;'\"()", numbers="0123456789", end_sent=".!?";
     string answer_1;
     cout << "Choose the input method: by yourseif(0), from file(1) ";
     getline(cin, answer_1);
@@ -118,7 +113,6 @@ int main()
         return 0;
     }
     int size = text.length();
-    //outputÌertically(text, size);
     cout << "Edited: ";
     for (int i = 0; i < size; ++i) {
         if (i<size-1 && text[i] == ' ' && text[i] == text[i + 1]) {
