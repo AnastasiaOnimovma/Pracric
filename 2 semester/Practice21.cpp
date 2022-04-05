@@ -29,10 +29,10 @@ int main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	Student students[50] = {"Лученкова Валерия Дмитриевна",'Ж',1323,9,5,4,5,4,5,4,4,5,"Иванов Иван Иванович",'М',1234,8,5,3,4,5,4,3,5,4,
-	"Янезнаев Анатолий Дамблдорович",'М',1323,23,3,3,3,4,4,5,3,4,"Кристиан Тревельян Грей",'М',0,1,5,5,5,5,5,5,5,5};
-	students[4].full_name = "Ростова Наталья Ильична";
-	students[4].sex = 'Ж';
+	Student students[50] = {"Р›СѓС‡РµРЅРєРѕРІР° Р’Р°Р»РµСЂРёСЏ Р”РјРёС‚СЂРёРµРІРЅР°",'Р–',1323,9,5,4,5,4,5,4,4,5,"РРІР°РЅРѕРІ РРІР°РЅ РРІР°РЅРѕРІРёС‡",'Рњ',1234,8,5,3,4,5,4,3,5,4,
+	"РЇРЅРµР·РЅР°РµРІ РђРЅР°С‚РѕР»РёР№ Р”Р°РјР±Р»РґРѕСЂРѕРІРёС‡",'Рњ',1323,23,3,3,3,4,4,5,3,4,"РљСЂРёСЃС‚РёР°РЅ РўСЂРµРІРµР»СЊСЏРЅ Р“СЂРµР№",'Рњ',0,1,5,5,5,5,5,5,5,5};
+	students[4].full_name = "Р РѕСЃС‚РѕРІР° РќР°С‚Р°Р»СЊСЏ РР»СЊРёС‡РЅР°";
+	students[4].sex = 'Р–';
 	students[4].group = 1324;
 	students[4].number_in_group = 8;
 	students[4].ex_1 = 2;
@@ -49,17 +49,17 @@ int main()
 }
 void menu(Student students[], int& quan) {
 	int option;
-	cout << "\x1b[31mВозможные действия:\x1b[0m \n" \
-		"1. Создать запись\n" \
-		"2. Внести изменения\n" \
-		"3. Вывод всех данных\n" \
-		"4. Вывод информации о группе\n" \
-		"5. Вывод рейтинга студентов за последнюю сессию\n" \
-		"6. Вывод количества студентов мужского и женского пола\n" \
-		"7. Ранжирование по успеваемости \n" \
-		"8. Вывод данных о студентах, имеющих определённый номер списке\n" \
-		"9. Завершить\n" \
-		"Введите число:  ";
+	cout << "\x1b[31mР’РѕР·РјРѕР¶РЅС‹Рµ РґРµР№СЃС‚РІРёСЏ:\x1b[0m \n" \
+		"1. РЎРѕР·РґР°С‚СЊ Р·Р°РїРёСЃСЊ\n" \
+		"2. Р’РЅРµСЃС‚Рё РёР·РјРµРЅРµРЅРёСЏ\n" \
+		"3. Р’С‹РІРѕРґ РІСЃРµС… РґР°РЅРЅС‹С…\n" \
+		"4. Р’С‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РіСЂСѓРїРїРµ\n" \
+		"5. Р’С‹РІРѕРґ СЂРµР№С‚РёРЅРіР° СЃС‚СѓРґРµРЅС‚РѕРІ Р·Р° РїРѕСЃР»РµРґРЅСЋСЋ СЃРµСЃСЃРёСЋ\n" \
+		"6. Р’С‹РІРѕРґ РєРѕР»РёС‡РµСЃС‚РІР° СЃС‚СѓРґРµРЅС‚РѕРІ РјСѓР¶СЃРєРѕРіРѕ Рё Р¶РµРЅСЃРєРѕРіРѕ РїРѕР»Р°\n" \
+		"7. Р Р°РЅР¶РёСЂРѕРІР°РЅРёРµ РїРѕ СѓСЃРїРµРІР°РµРјРѕСЃС‚Рё \n" \
+		"8. Р’С‹РІРѕРґ РґР°РЅРЅС‹С… Рѕ СЃС‚СѓРґРµРЅС‚Р°С…, РёРјРµСЋС‰РёС… РѕРїСЂРµРґРµР»С‘РЅРЅС‹Р№ РЅРѕРјРµСЂ СЃРїРёСЃРєРµ\n" \
+		"9. Р—Р°РІРµСЂС€РёС‚СЊ\n" \
+		"Р’РІРµРґРёС‚Рµ С‡РёСЃР»Рѕ:  ";
 	cin >> option;
 	switch (option) {
 	case 1:
@@ -98,22 +98,22 @@ void outputTheMain(Student &stud, int &count) {
 }
 void createStudent(Student students[], int &quan) {
 	string name;
-	cout << "Введите полное имя студента(ФИО): ";
+	cout << "Р’РІРµРґРёС‚Рµ РїРѕР»РЅРѕРµ РёРјСЏ СЃС‚СѓРґРµРЅС‚Р°(Р¤РРћ): ";
 	for (int i = 0; i <= 2; ++i) {
 		cin >> name;
 		students[quan].full_name += name+' ';
 	}
-	cout << "Введите пол (М,Ж): ";
+	cout << "Р’РІРµРґРёС‚Рµ РїРѕР» (Рњ,Р–): ";
 	cin >> students[quan].sex;
-	cout << "Введите номер группы: ";
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РіСЂСѓРїРїС‹: ";
 	cin >> students[quan].group;
-	cout << "Введите номер в группе: ";
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РІ РіСЂСѓРїРїРµ: ";
 	cin >> students[quan].number_in_group;
-	cout << "Введите оценки за экзамены (н-р: 5 4 3): ";
+	cout << "Р’РІРµРґРёС‚Рµ РѕС†РµРЅРєРё Р·Р° СЌРєР·Р°РјРµРЅС‹ (РЅ-СЂ: 5 4 3): ";
 	cin >> students[quan].ex_1;
 	cin >> students[quan].ex_2;
 	cin>> students[quan].ex_3;
-	cout << "Введите оценки за зачёты (н-р: 3 3 4 4 5): ";
+	cout << "Р’РІРµРґРёС‚Рµ РѕС†РµРЅРєРё Р·Р° Р·Р°С‡С‘С‚С‹ (РЅ-СЂ: 3 3 4 4 5): ";
 	cin >> students[quan].test_1;
 	cin >> students[quan].test_2;
 	cin >> students[quan].test_3;
@@ -125,13 +125,13 @@ void createStudent(Student students[], int &quan) {
 void changeNote(Student students[], int  &quan) {
 	int numb, answer;
 	string name;
-	cout << "Введите порядковый номер студента(всего "<<quan+1<<" студентов): ";
+	cout << "Р’РІРµРґРёС‚Рµ РїРѕСЂСЏРґРєРѕРІС‹Р№ РЅРѕРјРµСЂ СЃС‚СѓРґРµРЅС‚Р°(РІСЃРµРіРѕ "<<quan+1<<" СЃС‚СѓРґРµРЅС‚РѕРІ): ";
 	cin >> numb;
 	do {
-		cout << "Введите параметр для изменения\n1.ФИО\n2.Пол\n3.Группа\n4.Номер в группе\n5.Оценки сессии\n6.Оценки зачётной недели\n";
+		cout << "Р’РІРµРґРёС‚Рµ РїР°СЂР°РјРµС‚СЂ РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ\n1.Р¤РРћ\n2.РџРѕР»\n3.Р“СЂСѓРїРїР°\n4.РќРѕРјРµСЂ РІ РіСЂСѓРїРїРµ\n5.РћС†РµРЅРєРё СЃРµСЃСЃРёРё\n6.РћС†РµРЅРєРё Р·Р°С‡С‘С‚РЅРѕР№ РЅРµРґРµР»Рё\n";
 		cin >> answer;
 		if (answer < 5)
-			cout << "Новые данные: ";
+			cout << "РќРѕРІС‹Рµ РґР°РЅРЅС‹Рµ: ";
 		switch(answer) {
 		case(1): 
 			students[numb-1].full_name.clear();
@@ -150,9 +150,9 @@ void changeNote(Student students[], int  &quan) {
 			cin >> students[numb - 1].number_in_group;
 			break;
 		case(5): 
-			cout << "Введите номер экзамена: ";
+			cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЌРєР·Р°РјРµРЅР°: ";
 			cin >> answer;
-			cout << "Новые данные: ";
+			cout << "РќРѕРІС‹Рµ РґР°РЅРЅС‹Рµ: ";
 			if (answer == 1)
 				cin >> students[numb - 1].ex_1;
 			else if (answer == 2)
@@ -161,9 +161,9 @@ void changeNote(Student students[], int  &quan) {
 				cin >> students[numb - 1].ex_3;
 			break;
 		case(6):
-			cout << "Введите номер зачёта: ";
+			cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ Р·Р°С‡С‘С‚Р°: ";
 			cin >> answer;
-			cout << "Новые данные: ";
+			cout << "РќРѕРІС‹Рµ РґР°РЅРЅС‹Рµ: ";
 			if (answer == 1)
 				cin >> students[numb - 1].test_1;
 			else if (answer == 2)
@@ -176,17 +176,17 @@ void changeNote(Student students[], int  &quan) {
 				cin >> students[numb - 1].test_5;
 			break;
 		default:
-			cout << "Неверный параметр";
+			cout << "РќРµРІРµСЂРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ";
 		}
-		cout << "Введите 0, чтобы закончить и любое другое число, чтобы продолжить ";
+		cout << "Р’РІРµРґРёС‚Рµ 0, С‡С‚РѕР±С‹ Р·Р°РєРѕРЅС‡РёС‚СЊ Рё Р»СЋР±РѕРµ РґСЂСѓРіРѕРµ С‡РёСЃР»Рѕ, С‡С‚РѕР±С‹ РїСЂРѕРґРѕР»Р¶РёС‚СЊ ";
 		cin >> answer;
 	} while (answer);
 	cout << "\n";
 	menu(students, quan);
 }
 void outputData(Student students[],int &quan) {
-	cout <<setw(50) << "ФИО" << " Пол" << setw(10) << "№ группы" << setw(12) << "№ в группе";
-	cout << "  Эк1" << " Эк2" << " Эк3" << " Зч1" << " Зч2" << " Зч3" << " Зч4" << " Зч5"<<"\n";
+	cout <<setw(50) << "Р¤РРћ" << " РџРѕР»" << setw(10) << "в„– РіСЂСѓРїРїС‹" << setw(12) << "в„– РІ РіСЂСѓРїРїРµ";
+	cout << "  Р­Рє1" << " Р­Рє2" << " Р­Рє3" << " Р—С‡1" << " Р—С‡2" << " Р—С‡3" << " Р—С‡4" << " Р—С‡5"<<"\n";
 	int count = 1;
 	for (int i = 0; i <= quan; ++i) {
 		outputTheMain(students[i],count);
@@ -195,11 +195,11 @@ void outputData(Student students[],int &quan) {
 	menu(students, quan);
 }
 void groupOfStudents(Student students[], int& quan) {
-	cout << "Введите номер группы: ";
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РіСЂСѓРїРїС‹: ";
 	int N,count=1;
 	cin >> N;
-	cout << setw(50) << "ФИО" << " Пол" << setw(10) << "№ группы" << setw(12) << "№ в группе";
-	cout << "  Эк1" << " Эк2" << " Эк3" << " Зч1" << " Зч2" << " Зч3" << " Зч4" << " Зч5" << "\n";
+	cout << setw(50) << "Р¤РРћ" << " РџРѕР»" << setw(10) << "в„– РіСЂСѓРїРїС‹" << setw(12) << "в„– РІ РіСЂСѓРїРїРµ";
+	cout << "  Р­Рє1" << " Р­Рє2" << " Р­Рє3" << " Р—С‡1" << " Р—С‡2" << " Р—С‡3" << " Р—С‡4" << " Р—С‡5" << "\n";
 	for (int i = 0; i <= quan; ++i) {
 		if (students[i].group == N) {
 			outputTheMain(students[i], count);
@@ -212,18 +212,18 @@ void groupOfStudents(Student students[], int& quan) {
 void sexOfStudents(Student students[], int &quan) {
 	int girls = 0;
 	for (int i = 0; i <= quan; ++i) {
-		if (students[i].sex == 'Ж')
+		if (students[i].sex == 'Р–')
 			girls++;
 	}
-	cout << "Количество студентов мужского пола - " << quan-girls+1 << ", женского - " << girls<<"\n\n";
+	cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СѓРґРµРЅС‚РѕРІ РјСѓР¶СЃРєРѕРіРѕ РїРѕР»Р° - " << quan-girls+1 << ", Р¶РµРЅСЃРєРѕРіРѕ - " << girls<<"\n\n";
 	menu(students, quan);
 }
 void numberInGroupOfStudents(Student students[], int& quan) {
-	cout << "Введите номер в группе: ";
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РІ РіСЂСѓРїРїРµ: ";
 	int k, count = 1;
 	cin >> k;
-	cout << setw(50) << "ФИО" << " Пол" << setw(10) << "№ группы" << setw(12) << "№ в группе";
-	cout << "  Эк1" << " Эк2" << " Эк3" << " Зч1" << " Зч2" << " Зч3" << " Зч4" << " Зч5" << "\n";
+	cout << setw(50) << "Р¤РРћ" << " РџРѕР»" << setw(10) << "в„– РіСЂСѓРїРїС‹" << setw(12) << "в„– РІ РіСЂСѓРїРїРµ";
+	cout << "  Р­Рє1" << " Р­Рє2" << " Р­Рє3" << " Р—С‡1" << " Р—С‡2" << " Р—С‡3" << " Р—С‡4" << " Р—С‡5" << "\n";
 	for (int i = 0; i <= quan; ++i) {
 		if (students[i].number_in_group == k) {
 			outputTheMain(students[i], count);
@@ -241,14 +241,14 @@ bool search(int arr[],int &quan, int &elem){
 	return 0;
 }
 void topOfStudents(Student students[], int& quan) {
-	cout << "Топ студентов\n";
+	cout << "РўРѕРї СЃС‚СѓРґРµРЅС‚РѕРІ\n";
 	float max = 0.0;
-	int the_best, j=0, arr[50];   //массив индексов
+	int the_best, j=0, arr[50];   //РјР°СЃСЃРёРІ РёРЅРґРµРєСЃРѕРІ
 	int count=1;
 	for (int z = 0; z < 50; z++)
 		arr[z] = -1;
-	cout << setw(50) << "ФИО" << " Пол" << setw(10) << "№ группы" << setw(12) << "№ в группе";
-	cout << "  Эк1" << " Эк2" << " Эк3" << " Зч1" << " Зч2" << " Зч3" << " Зч4" << " Зч5" << "\n";
+	cout << setw(50) << "Р¤РРћ" << " РџРѕР»" << setw(10) << "в„– РіСЂСѓРїРїС‹" << setw(12) << "в„– РІ РіСЂСѓРїРїРµ";
+	cout << "  Р­Рє1" << " Р­Рє2" << " Р­Рє3" << " Р—С‡1" << " Р—С‡2" << " Р—С‡3" << " Р—С‡4" << " Р—С‡5" << "\n";
 	for (int i=0; i<=quan;++i) {
 		max = 0.0;
 		for (int i = 0; i <= quan; ++i) {
@@ -267,9 +267,9 @@ void topOfStudents(Student students[], int& quan) {
 }
 void exam_marks(Student students[], int& quan) {
 	int count = 1;
-	cout << setw(50) << "ФИО" << " Пол" << setw(10) << "№ группы" << setw(12) << "№ в группе";
-	cout << "  Эк1" << " Эк2" << " Эк3" << " Зч1" << " Зч2" << " Зч3" << " Зч4" << " Зч5" << "\n";
-	cout << "Студенты, лишённые стипендии\n";
+	cout << setw(50) << "Р¤РРћ" << " РџРѕР»" << setw(10) << "в„– РіСЂСѓРїРїС‹" << setw(12) << "в„– РІ РіСЂСѓРїРїРµ";
+	cout << "  Р­Рє1" << " Р­Рє2" << " Р­Рє3" << " Р—С‡1" << " Р—С‡2" << " Р—С‡3" << " Р—С‡4" << " Р—С‡5" << "\n";
+	cout << "РЎС‚СѓРґРµРЅС‚С‹, Р»РёС€С‘РЅРЅС‹Рµ СЃС‚РёРїРµРЅРґРёРё\n";
 	for (int i = 0; i <= quan; ++i) {
 		if (students[i].ex_1 <= 3 || students[i].ex_2 <= 3 || students[i].ex_3 <= 3 || students[i].test_1 <= 3 || students[i].test_2 <= 3 || students[i].test_3 <= 3 || students[i].test_4 <= 3 || students[i].test_5 <= 3)
 		{
@@ -278,7 +278,7 @@ void exam_marks(Student students[], int& quan) {
 		}
 	}
 	count = 1;
-	cout << "Студенты-\"хорошисты\"\n";
+	cout << "РЎС‚СѓРґРµРЅС‚С‹-\"С…РѕСЂРѕС€РёСЃС‚С‹\"\n";
 	for (int i = 0; i <= quan; ++i) {
 		if ((students[i].ex_1 + students[i].ex_2 + students[i].ex_3 + students[i].test_1 + students[i].test_2 + students[i].test_3 + students[i].test_4 + students[i].test_5) / 8.0 != 5)
 			if (students[i].ex_1 > 3 && students[i].ex_2 > 3 && students[i].ex_3 > 3 && students[i].test_1 > 3)
@@ -290,7 +290,7 @@ void exam_marks(Student students[], int& quan) {
 
 	}
 	count = 1;
-	cout << "Студенты - \"отличники\"\n";
+	cout << "РЎС‚СѓРґРµРЅС‚С‹ - \"РѕС‚Р»РёС‡РЅРёРєРё\"\n";
 	for (int i = 0; i <= quan; ++i) {
 		if ((students[i].ex_1 + students[i].ex_2 + students[i].ex_3 + students[i].test_1 + students[i].test_2 + students[i].test_3 + students[i].test_4 + students[i].test_5) / 8.0 == 5) {
 			outputTheMain(students[i], count);
