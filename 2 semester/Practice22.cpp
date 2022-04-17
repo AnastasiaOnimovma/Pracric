@@ -50,15 +50,15 @@ void deleteList(Node* &first)
     }
 }
 
-//ÔÓÎÛ˜ÂÌËÂ
-Node* listElemIndex(Node* curr, int index, bool err_msg = true) {
+//–ø–æ–ª—É—á–µ–Ω–∏–µ
+Node* listElemIndex(Node* curr, int index, bool err_msg = true) {		//–ø–æ –∏–Ω–¥–µ–∫—Å—É
     while (curr && (index--))
         curr = curr->next;
     if (err_msg && !curr)
         cout << "\x1b[32m" << "List item not found"<< "\x1b[0m"<<"\n";
     return curr;
 }
-Node* listElemValue(Node* curr, int &value, bool err_msg = true) {
+Node* listElemValue(Node* curr, int &value, bool err_msg = true) {		//–ø–æ –∑–Ω–∞—á–µ–Ω–∏—é
     while(curr && curr->val != value)
         curr = curr->next;
     if (err_msg && !curr)
@@ -114,8 +114,8 @@ void takeElemMain(int*& arr, const int& n, Node*& first) {
     cout << "Array: " << (end - begin).count() << " ms\n";
 }
 
-//ÒÓÁ‰‡ÌËÂ
-void createList(Node* &first, Node*& last, unsigned length) {
+//—Å–æ–∑–¥–∞–Ω–∏–µ
+void createList(Node* &first, Node*& last, unsigned length) {		//—Å–ª—É—á–∞–π–Ω—ã–π
     Node* curr = 0, * next = 0;
     deleteList(first);
     for (unsigned i = 0; i < length; ++i) {
@@ -151,7 +151,7 @@ void createMain(Node*& first, Node*& last, int& n, int* &arr) {
 }
 
 
-//‚‚Ó‰
+//–≤–≤–æ–¥
 void pushFirst(Node* &curr,Node* &first, Node* &last) {
     curr->prev = nullptr;
     curr->next = nullptr;
@@ -164,7 +164,7 @@ void pushLast(Node* &curr,Node* & last) {
     last = curr;
     last->next = nullptr;
 }
-void enterList(Node*& first, Node*& last, int& n) {
+void enterList(Node*& first, Node*& last, int& n) {		//–≤–≤–æ–¥ —Å –∫–ª–∞–≤–∏–∞—Ç—É—Ä—ã
     n = 0;
     Node* p;
     deleteList(first);
@@ -217,7 +217,7 @@ void enterMain(Node* &first, Node* &last, int* &arr, int &n) {
     cout << "Array: " << (end - begin).count() << " ms\n";
 }
 
-//‚ÒÚ‡‚Í‡
+//–≤—Å—Ç–∞–≤–∫–∞
 void insertToList(Node*& first, Node*& last, const int &idx,const int &val) {
  
     Node* curr_1 = 0, * curr_2 = new Node;
@@ -290,7 +290,7 @@ void insertMain(Node* &first, Node* &last, int* &arr, int &n) {
     cout << "Array: " << (end - begin).count() << " ms\n";
 }
 
-//Û‰‡ÎÂÌËÂ
+//—É–¥–∞–ª–µ–Ω–∏–µ
 void deleteCurr( Node*& first, Node* &last, int &idx) {  
     Node* curr =0;
     curr = takeElem(first,idx);
@@ -356,8 +356,8 @@ void deleteMain(int* &arr, int &n, Node*& first, Node*& last) {
     cout << "Array: " << (end - begin).count() << " ms\n";
 }
 
-//Ó·ÏÂÌ
-void exchangeCurr(Node* &first,Node* &last,const int& index_1, const int& index_2) { //ËÌ‰ÂÍÒ˚
+//–æ–±–º–µ–Ω
+void exchangeCurr(Node* &first,Node* &last,const int& index_1, const int& index_2) { //–∏–Ω–¥–µ–∫—Å—ã
  
     Node* p_1, * p_2;
     Node* p_mem = new Node;
@@ -437,7 +437,7 @@ void exchangeMain(int*& arr, const int& n, Node*& first, Node*& last) {
     cout << "Array: " << (end - begin).count() << " ms\n";
 }
 
-//Ì‡˜‡ÎÓ
+//–Ω–∞—á–∞–ª–æ
 void menu(Node*& first, Node*& last, int* &arr, int &n) {
 
     int option;
