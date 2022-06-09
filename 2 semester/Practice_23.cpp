@@ -1,282 +1,455 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <math.h>
-#include <chrono>
-#include <fstream>
+#include <string>
+#include "windows.h" 
 
 using namespace std;
-using namespace chrono;
 
-vector<int> parent, rang;
+string operations = "+-*/";
 
-struct Edge {
-	int u, v, weight;
-	bool operator<(Edge const& other) {
-		return weight < other.weight;
+struct Node {
+	string symbol;
+	Node* next;
+};
+struct Stack {
+	Node* tail;
+	Stack() : tail(nullptr) {}  //конструктор
+	bool isEmpty() {
+		if (tail == nullptr) return 1;
+		return 0;
+	}
+	void output() {
+		cout << "Steak: ";
+		Node* curr = tail;
+		if (!curr) {
+			cout << "Empty";
+		}
+		while (curr) {
+			cout << curr->symbol << " ";
+			curr = curr->next;
+		}
+		cout << "\n";
+	}
+	string pop(bool print = 1) {
+		if (tail == nullptr) return "the end";
+		if (print) cout << tail->symbol << " ";
+		string answer = tail->symbol;
+		Node* p = new Node;
+		p = tail;
+		tail = tail->next;
+		p->next = nullptr;
+		delete p;
+		return answer;
+	}
+	void push(string sym) {
+		Node* p = new Node;
+		p->symbol = sym;
+		p->next = tail;
+		tail = p;
 	}
 };
-void printGraph(vector<Edge>& graph, const int& n) {
-	int e = floor(sqrt(n * 2)) + 1;
-	int** arr = new int* [e];
-	for (int i = 0; i < e; ++i)
-		arr[i] = new int[e] {};
-	int k = 0;
-	for (int i = 0; i < e; i++) {
-		for (int j = i; j < e; j++) {
-			if (i == j) arr[i][j] = 0;
-			else {
-				arr[i][j] = graph[k].weight;
-				arr[j][i] = arr[i][j];
-				k++;
-			}
 
-		}
+int prior(char c) {
+	switch (c) {
+	case '(': return 1;
+	case '+': case '-': return 2;
+	case '*': case '/': return 3;
+	default: return 0;
 	}
-	for (int i = 0; i < e; i++)
-		for (int j = 0; j < e; j++) {
-			if (arr[i][j] / 10 < 1) cout << " ";
-			cout << arr[i][j];
-			if (j == e - 1) cout << "\n";
-			else cout << " ";
-		}
-	cout << "\n";
-	for (int i = 0; i < e; i++)
-	{
-		delete[] arr[i];
-	}
-	delete[] arr;
-}
-void enterGraph(vector<Edge>& graph, int& n) {
-	cout << "Size: ";
-	cin >> n;
-	graph.resize(n * (n - 1) / 2);
-	int k = 0;
-	for (int i = 0; i < n; i++) {
-		for (int j = i + 1; j < n; j++) {
-			graph[k].u = i;
-			graph[k].v = j;
-			cout << "Input " << i << "-" << j<<": ";
-			cin>>graph[k].weight;
-			k++;
-		}
-	}
-	n = n * (n - 1) / 2;
-	cout << "Your graph:\n";
-	printGraph(graph, n);
-}
-void createGraph(vector<Edge> &graph, int &n) {
-	n = 246+ rand() % (10);
-	int k = 0;
-	graph.resize(n * (n - 1) / 2);
-	for (int i = 0; i < n; i++) {
-		for (int j = i + 1; j < n; j++) {
-			graph[k].u = i;
-			graph[k].v = j;
-			graph[k].weight = rand() % (100);
-			if (i == 0 && graph[k].weight == 0) graph[k].weight == 1;
-			k++;
-		}
-	}
-	n = n * (n - 1) / 2;
-	cout << "Graph was created\n";
-}
-void readGraph(vector<Edge>& graph, int& n)   {
-	ifstream File;
-	n = 4;
-	graph.resize(n * (n - 1) / 2);
-	File.open("C:\\Users\\Юля\\ex_graph.txt", ios::binary);
-	if (!File.is_open())
-	{
-		cout << "Can not open\n";
-		return;
-	}
-	char ch;
-	int ignore = 1, read = 1, i = 0, j = 0, k = 0;
-	while (!File.eof()) 
-	{
-		for (int e = 1; e <= ignore; e++) {
-			File >> ch;
-			i++;
-			if (i % n == 0) {
-				i = 0;
-				j++;
-			}
-		}
-		ignore++;
-		for (int p = n - 1; p >= read; p--) {
-			File >> graph[k].weight;
-			graph[k].u = j;
-			graph[k].v = i;
-			k++;
-			i++;
-			if (i % n == 0) {
-				i = 0;
-				j++;
-			}
-		}
-		read++;
-	}
-	n = n * (n - 1) / 2;
-	File.close();
-	printGraph(graph, n);
 }
 
-
-void Merge(vector<Edge> graph,int &n, int first, int last){ 
-	int middle, start, final, j;
-	int* mas = new int[n];
-	middle = (first + last) / 2; 
-	start = first; 
-	final = middle + 1; 
-	for (j = first; j <= last; j++) 
-		if ((start <= middle) && ((final > last) || (graph[start].weight < graph[final].weight))){
-			mas[j] = graph[start].weight;
-			start++;
-		}
-		else{
-			mas[j] = graph[final].weight;
-			final++;
-		}
-	for (j = first; j <= last; j++) graph[j].weight = mas[j];
-	delete[]mas;
-};
-void MergeSort(vector<Edge> &graph,int &n, int first, int last){ //n*logn
-	if (first < last){
-		MergeSort(graph,n, first, (first + last) / 2); 
-		MergeSort(graph,n, (first + last) / 2 + 1, last); 
-		Merge(graph,n, first, last); 
-	}	
-}
-void Shell(vector<Edge> graph, int& n) { //от n*logn до n^2
-	int d = n/2;
-	d = d/2;
-	int j;
-	while (d>0) {
-		for (int i = 0; i < n - d; i++) {
-			j = i;
-			while (j >= 0 && graph[j].weight > graph[j + d].weight) {
-				swap(graph[j].weight, graph[j + d].weight);
-				j--;
+bool correctInputInf(string& data) {
+	bool flag_oper = 0, flag_bracket = 0;
+	int count_num = 0, count_oper = 0;
+	for (int i = 0; i < data.length(); ++i) {
+		if (data[i] == ' ') data.erase(i, 1);
+	}
+	for (int i = 0; i < data.length(); ++i) {
+		if (data[i] == '(') {
+			if (!flag_oper && i != 0 || flag_bracket || operations.find(data[i + 1]) != -1) {
+				return 0;
 			}
+			flag_bracket = 1;
 		}
-		d = d / 2;
+		else if (data[i] == ')') {
+			if (!flag_bracket || flag_oper || i != data.length() - 1 && operations.find(data[i + 1]) == -1) {
+				return 0;
+			}
+			flag_bracket = 0;
+		}
+		else if (data[i] >= '0' && data[i] <= '9' || data[i] == '.') {
+			flag_oper = 0;
+		}
+		else if (operations.find(data[i]) != -1) {
+			if (i == 0 || i == data.length() - 1) {
+				return 0;
+			}
+			if (flag_oper) {
+				return 0;
+			}
+			flag_oper = 1;
+		}
+		else if (data[i] == '\0') continue;
+		else {
+			return 0;;
+		}
 	}
+	return 1;
 }
-	
-void make_set(int v) {
-	parent[v] = v;
-	rang[v] = 0;
+bool correctInputPo(string& data) {
+	int count_oper = 0, count_num = 0;
+	for (int i = 0; i < data.length(); ++i) {
+		if (operations.find(data[i]) != -1) {
+			if (i == 0) {
+				return 0;
+			}
+			count_oper++;
+		}
+		else if (data[i] == ' ') {
+			if (operations.find(data[i - 1]) == -1)
+				count_num++;
+		}
+		else if (data[i] >= '0' && data[i] <= '9') {
+			if (i == data.length() - 1) {
+				return 0;
+			}
+			continue;
+		}
+		else if (data[i] == '.' || data[i] == '\0')continue;
+		else {
+			return 0;
+		}
+	}
+	if (count_oper != count_num - 1) {
+		return 0;
+	}
+	return 1;
 }
-int find_set(int v) {
-	if (v == parent[v])
-		return v;
-	return parent[v] = find_set(parent[v]);
+bool correctInputPre(string& data) {
+	int count_oper = 0, count_num = 0;
+	if (data[0] == ' ') data.erase(0, 1);
+	for (int i = 0; i < data.length(); ++i) {
+		if (operations.find(data[i]) != -1) {
+			if (i == data.length() - 1) {
+				return 0;
+			}
+			count_oper++;
+		}
+		else if (data[i] == ' ' || data[i] == '\0') {
+			if (operations.find(data[i - 1]) == -1)
+				count_num++;
+		}
+		else if (data[i] >= '0' && data[i] <= '9') {
+			if (i == 0) {
+				return 0;
+			}
+			continue;
+		}
+		else if (data[i] == '.')continue;
+		else {
+			return 0;
+		}
+	}
+	if (count_oper != count_num - 1) {
+		return 0;
+	}
+	return 1;
 }
 
-void union_sets(int a, int b) {
-	a = find_set(a);
-	b = find_set(b);
-	if (a != b) {
-		if (rang[a] < rang[b])
-			swap(a, b);
-		parent[b] = a;
-		if (rang[a] == rang[b])
-			rang[a]++;
+double action(double& value1, double& value2, string& oper) {
+	switch (oper[0]) {
+	case '+':
+		return value1 + value2;
+		break;
+	case '-':
+		return value1 - value2;
+		break;
+	case '*':
+		return value1 * value2;
+		break;
+	case '/':
+		return value1 / value2;
+		break;
+	default:
+		break;
 	}
 }
-void Kraskal(vector<Edge>& graph, int& n, bool small=true) {
-	int cost = 0;
-	int ver = floor(sqrt(n * 2)) + 1;
-	vector<vector<int>> result(ver, vector<int>(ver));
-	parent.resize(ver);
-	rang.resize(ver);
-	for (int i = 0; i < ver; i++)
-		make_set(i);
-	system_clock::time_point begin = system_clock::now();
-	Shell(graph, n);
-	system_clock::time_point end = system_clock::now();
-	cout << "Shellsort: "<< (end - begin).count()<<" ms\n";
-	begin = system_clock::now();
-	MergeSort(graph,n, 0, n - 1);
-	end = system_clock::now();
-	cout << "Merge: " << (end - begin).count() << " ms\n";
-	begin = system_clock::now();
-	sort(graph.begin(), graph.end());
-	end = system_clock::now();
-	cout << "Default sort: " << (end - begin).count() << " ms\n";
-	for (Edge e : graph) {
-		if (find_set(e.u) != find_set(e.v) && e.weight!=0) {
-			cost += e.weight;
-			result[e.u][e.v] = e.weight;
-			result[e.v][e.u] = e.weight;
-			union_sets(e.u, e.v);
+void calculate(string& data, bool prefix) {
+	if (prefix) {
+		if (!correctInputPre(data)) {
+			cout << "Invalid input\n";
+			return;
+		}
+		for (int j = data.length() - 1, i = 0; j >= i; --j, ++i) {
+			swap(data[j], data[i]);
 		}
 	}
-	int par = parent[0];
-	for (int i = 1; i < ver; i++) {
-		if (parent[i] != par) {
-			cout << "Not connected\n";
+	else {
+		if (!correctInputPo(data)) {
+			cout << "Invalid input\n";
 			return;
 		}
 	}
-	if (small) {
-		cout << "Minimum spanning tree:\n";
-		cout.setf(ios::right);
-		for (int i = 0; i < ver; i++) {
-			for (int j = 0; j < ver; j++) {
-				cout.width(3);
-				cout << result[i][j];
+	Stack numbers;
+	string num;
+	string  sym;
+	double val_1, val_2;
+	for (int i = 0; i <= data.length(); i++) {
+		sym = data[i];
+		if (operations.find(sym) != -1) {
+			if (prefix) {
+				val_1 = stod(numbers.pop(0));
+				val_2 = stod(numbers.pop(0));
 			}
-			cout << "\n";
-		}
-		cout.unsetf(ios::right);
-	}
-	cout <<"Weight: " << cost << "\n";
-	result.clear();
-} 
+			else {
+				val_2 = stod(numbers.pop(0));
+				val_1 = stod(numbers.pop(0));
+			}
 
-void menu(vector<Edge>& graph, int& n) {
-	int answer;
+			numbers.push(to_string(action(val_1, val_2, sym)));
+		}
+		if (sym >= "0" && sym <= "9" || sym == ".") {
+			num += sym;
+		}
+		if (sym == " ") {
+			if (operations.find(data[i - 1]) != -1) continue;
+			if (prefix) {
+				for (int j = num.length() - 1, i = 0; j >= i; --j, ++i) {
+					swap(num[j], num[i]);
+				}
+			}
+			numbers.push(num);
+			num.erase(0, num.length());
+		}
+	}
+	numbers.pop();
+	cout << "\n";
+}
+
+void convertToPoPN(string& data, bool print = 1) {
+	Stack steak;
+	string note;
+	if (!correctInputInf(data)) {
+		cout << "Invalid input\n";
+		return;
+	}
+	string sym;
+	for (int i = 0; i <= data.length(); ++i) {
+		if (data[i] == ' ') data.erase(i, 1);
+	}
+	for (int i = 0; i < data.length(); i++) {
+		sym = data[i];
+		if (sym >= "0" && sym <= "9" || sym == ".") {
+			note += sym;
+			if (sym == "." || data[i + 1] == '.' || data[i + 1] >= '0' && data[i + 1] <= '9') continue;
+			note += " ";
+			if (print) {
+				cout << "\nString: " << note << "\n";
+				steak.output();
+				Sleep(500);
+			}
+		}
+		if (sym == "(") {
+			steak.push(sym);
+			if (print) {
+				cout << "\nString: " << note << "\n";
+				steak.output();
+				Sleep(500);
+			}
+			continue;
+		}
+		if (sym == ")") {
+			while (steak.tail->symbol != "(") {
+				note += steak.pop(0);
+				note += " ";
+			}
+			steak.pop(0);
+			if (print) {
+				cout << "\nString: " << note << "\n";
+				steak.output();
+				Sleep(500);
+			}
+			continue;
+		}
+		if (operations.find(sym) != -1) {
+
+			if (steak.isEmpty() || prior(steak.tail->symbol[0] < prior(sym[0]))) {
+				steak.push(sym);
+				if (print) {
+					cout << "\nString: " << note << "\n";
+					steak.output();
+					Sleep(500);
+				}
+			}
+			else {
+				while (!steak.isEmpty() && prior(steak.tail->symbol[0]) >= prior(sym[0])) {
+					note += steak.pop(0);
+					note += " ";
+				}
+				steak.push(sym);
+				if (print) {
+					cout << "\nString: " << note << "\n";
+					steak.output();
+					Sleep(500);
+				}
+			}
+		}
+	}
+	if (print) {
+		cout << "\nString: " << note << "\n";
+		steak.output();
+		Sleep(500);
+	}
+	while (!steak.isEmpty()) {
+		note += steak.pop(0);
+		note += " ";
+	};
+	if (print) {
+		cout << "\nResult: ";
+	}
+	cout << note << "\n";
+	data = note;
+}
+void convertToPrePN(string& data) {
+	if (!correctInputInf(data)) {
+		cout << "Invalid input\n";
+		return;
+	}
+	string note;
+	for (int j = data.length() - 1; j >= 0; --j) {
+		if (data[j] == '(') {
+			note += ')';
+		}
+		else if (data[j] == ')') {
+			note += '(';
+		}
+		else if (data[j] == ' ') continue;
+		else {
+			note += data[j];
+		}
+	}
+	cout << "Inverted string: " << note << "\n" << "Algorithm: ";
+	convertToPoPN(note, 0);
+	data.erase(0, data.length());
+	for (int j = note.length() - 1; j >= 0; --j) {
+		data += note[j];
+	}
+	data += '\0';
+	cout << "Result: " << data << "\n";
+}
+
+void menu(string& data) {
+	int option;
 	cout << "\x1b[31mWhat do you want?\x1b[0m \n" \
-		"1. Kraskal's algorithm for n=10000\n" \
-		"2. Kraskal's algorithm algorithm for small graphs\n" \
-		"3. Finish\n" \
+		"1. Conversion to a reverse Polish notation(automatic correctness check of the infix entry)\n" \
+		"2. Conversion to a Polish prefix notation(automatic correctness check of the infix entry)\n" \
+		"3. Calculation of an expression written in reverse Polish notation\n" \
+		"4. Calculation of an expression written in prefix Polish notation\n" \
+		"5. Checking for the correctness of the entered expression\n" \
+		"6. Finish\n" \
 		"Enter the option number: ";
-	cin >> answer;
-	switch (answer) {
+	cin >> option;
+	switch (option) {
 	case 1:
-		createGraph(graph, n);
-		Kraskal(graph, n,0);
-		menu(graph,n);
+		data.erase(0, data.length());
+		cin.ignore();
+		getline(cin, data);
+		convertToPoPN(data);
+		menu(data);
 		break;
 	case 2:
-		cout << "You can enter the graph(1) or read it from file(2) ";
-		cin >> answer;
-		if (answer == 1) enterGraph(graph, n);
-		else if (answer == 2) readGraph(graph, n);
-		else {
-			cout << "Wrong number\n";
-			menu(graph, n);
-		}
-		Kraskal(graph, n);
-		menu(graph, n);
+		data.erase(0, data.length());
+		cin.ignore();
+		getline(cin, data);
+		convertToPrePN(data);
+		menu(data);
 		break;
 	case 3:
+		if (!correctInputPo(data)) {
+			cout << "You should to enter new reverse(postfix) note: ";
+			cin.ignore();
+			getline(cin, data);
+			data += '\0';
+		}
+		else {
+			cout << "Do you want to enter new reverse(postfix) note? (\'no\'=0) ";
+			cin >> option;
+			if (option) {
+				data.erase(0, data.length());
+				cin.ignore();
+				getline(cin, data);
+				data += '\0';
+			}
+		}
+		calculate(data, 0);
+		menu(data);
 		break;
-	default:
-		cout << "Wrong number\n";
-		menu(graph, n);
+	case 4:
+		if (!correctInputPre(data)) {
+			cout << "You should to enter new prefix note: ";
+			cin.ignore();
+			getline(cin, data);
+			data += '\0';
+		}
+		else {
+			cout << "Do you want to enter new prefix note? (\'no\'=0) ";
+			cin >> option;
+			if (option) {
+				data.erase(0, data.length());
+				cin.ignore();
+				getline(cin, data);
+				data += '\0';
+			}
+			else
+				cin.ignore();
+		}
+		calculate(data, 1);
+		menu(data);
+		break;
+	case 5:
+		cout << "What kind of notation you want to check(1-infix,2-prefix, 3-postfix)? ";
+		cin >> option;
+		cout << "Enter the expression: ";
+		data.erase(0, data.length());
+		cin.ignore();
+		getline(cin, data);
+		data += '\0';
+		switch (option) {
+		case 1:
+			if (correctInputInf(data)) {
+				cout << "Correct\n";
+			}
+			else {
+				cout << "Not correct\n";
+			}
+			break;
+		case 2:
+			if (correctInputPre(data)) {
+				cout << "Correct\n";
+			}
+			else {
+				cout << "Not correct\n";
+			}
+			break;
+		case 3:
+			if (correctInputPo(data)) {
+				cout << "Correct\n";
+			}
+			else {
+				cout << "Not correct\n";
+			}
+			break;
+		default:
+			cout << "Invalid input\n";
+		}
+		menu(data);
+		break;
+	case 6:
 		break;
 	}
-
 
 }
 int main() {
-	srand(time(NULL));
-	vector<Edge> graph;
-	int n=0;
-	menu(graph, n);
-	graph.clear();
+	string data = "";
+	menu(data);
 	return 0;
 }
